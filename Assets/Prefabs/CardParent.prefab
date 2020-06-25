@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 35108870885352532}
   - component: {fileID: 35108870885352521}
   - component: {fileID: 35108870885352535}
+  - component: {fileID: 1616355128783096973}
   m_Layer: 0
   m_Name: CardParent
   m_TagString: Untagged
@@ -73,6 +74,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 180, y: 286}
   m_EdgeRadius: 0
+--- !u!114 &1616355128783096973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35108870885352533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fac87b5d902ee8648bd46991a7d8a5e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
+  foundPair: 0
+  flipped: 0
 --- !u!1 &35108872152112769
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,7 +163,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: bec1a87f0046b9f408a5ef5befa004cc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -233,7 +249,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: -1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
