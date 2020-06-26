@@ -34,6 +34,7 @@ public class ScoreCounter : MonoBehaviour
     {
         numberOfPairs++;
 
+        // Finish the game when the number of pairs is 12
         if (numberOfPairs == 12)
         {
             FindObjectOfType<CardGameController>().gameObject.SetActive(false);

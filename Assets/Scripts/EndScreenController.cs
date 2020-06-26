@@ -18,16 +18,9 @@ public class EndScreenController : MonoBehaviour
 
     void Start()
     {
-        // foreach (Transform child in scorePanel)
-        // {
-        //     Debug.Log("Des");
-        //     Destroy(child);
-        // }
-
         var roundData = DataSaver.LoadFile();
         if (roundData != null)
         {
-            Debug.Log("Load files " + roundData.Count + " and add listener");
             foreach (var card in roundData)
                 AddScoreToLeaderboard(card);
         }

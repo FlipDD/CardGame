@@ -38,10 +38,7 @@ public static class DataSaver
             var stream = new FileStream(destination, FileMode.Open);
 
             var data = bf.Deserialize(stream) as List<RoundData>;
-
             roundsData = data;
-            // foreach (var d in data)
-            //     roundsData.Add(d);
             
             stream.Close();
 

@@ -46,6 +46,41 @@ public class CardGameController : MonoBehaviour
 		}
 	}
 
+	void ValidateFlip(Collider2D collider)
+	{
+		var cardTransform = collider.gameObject.transform;
+		var card = cardTransform.GetComponent<Card>();
+
+		// Only flip if we haven't found a pair already
+		if (!card.foundPair)
+		{
+			switch (state)
+			{
+				case State.FirstFlip:
+					scoreCounter.AddMoveScore();
+					StartCoroutine(FlipCard(cardTransform));
+					state = State.SecondFlip;
+					flippedCard = card;
+				break;
+
+				case State.SecondFlip:
+					if (flippedCard != card)
+					{
+						scoreCounter.AddMoveScore();
+						StartCoroutine(FlipCard(cardTransform));
+						state = State.FirstFlip;
+
+						// If the ID's don't match, flip the cards back, otherwise add a pair to the score
+						if (card.id != flippedCard.id)
+							StartCoroutine(WaitToFlipBack(cardTransform, flippedCard.transform));
+						else
+							AddPair(card, flippedCard);
+					}
+				break;
+			}	
+		}
+	}
+
     IEnumerator DealCards()
 	{
 		enabled = false;
@@ -96,41 +131,6 @@ public class CardGameController : MonoBehaviour
 		pauseMenuController.enabled = true;
 	}
 
-	void ValidateFlip(Collider2D collider)
-	{
-		var cardTransform = collider.gameObject.transform;
-		var card = cardTransform.GetComponent<Card>();
-
-		// Only flip if we haven't found a pair already
-		if (!card.foundPair)
-		{
-			
-			switch (state)
-			{
-				case State.FirstFlip:
-					flippedCard = card;
-					state = State.SecondFlip;
-					StartCoroutine(FlipCard(cardTransform));
-					scoreCounter.AddMoveScore();
-				break;
-
-				case State.SecondFlip:
-					if (flippedCard != card)
-					{
-						StartCoroutine(FlipCard(cardTransform));
-						scoreCounter.AddMoveScore();
-						state = State.FirstFlip;
-
-						// If the ID's don't match, flip the cards back, otherwise add a pair to the score
-						if (card.id != flippedCard.id)
-							StartCoroutine(WaitToFlipBack(cardTransform, flippedCard.transform));
-						else
-							AddPair(card, flippedCard);
-					}
-				break;
-			}	
-		}
-	}
 
 	void AddPair(Card firstCard, Card secondCard)
 	{
