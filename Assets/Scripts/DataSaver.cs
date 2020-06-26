@@ -1,19 +1,14 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using System.Linq;
 
-public class DataSaver : MonoBehaviour 
+public static class DataSaver
 {
-    int currentMoves;
-    string currentName;
-    float currentTime;
+    static List<CardData> cardsData = new List<CardData>();
 
-    // void Start()
-    // {
-    //     LoadFile();
-    // }
-
-    public void SaveFile()
+    public static void SaveFile(CardData data)
     {
         string destination = Application.persistentDataPath + "/save.dat";
         FileStream file;
@@ -23,34 +18,34 @@ public class DataSaver : MonoBehaviour
         else 
             file = File.Create(destination);
 
-        var data = new CardData(currentName, currentMoves, currentTime);
         var bf = new BinaryFormatter();
-        bf.Serialize(file, data);
+        cardsData.Add(data);
+        bf.Serialize(file, cardsData);
         file.Close();
     }
 
-    public void LoadFile()
+    public static List<CardData> LoadFile()
     {
         string destination = Application.persistentDataPath + "/save.dat";
-        FileStream file;
 
-        if(File.Exists(destination)) file = File.OpenRead(destination);
+        if(File.Exists(destination))
+        {
+            var bf = new BinaryFormatter();
+            var stream = new FileStream(destination, FileMode.Open);
+
+            var data = bf.Deserialize(stream) as List<CardData>;
+            foreach (var d in data)
+                cardsData.Add(d);
+            
+
+            stream.Close();
+
+            return cardsData.OrderBy(t=>t.time).ToList();
+        }
         else
         {
-            Debug.LogError("File not found");
-            return;
+            Debug.LogWarning("File not found");
+            return null;
         }
-
-        var bf = new BinaryFormatter();
-        var data = (CardData) bf.Deserialize(file);
-        file.Close();
-
-        currentName = data.name;
-        currentMoves = data.moves;
-        currentTime = data.time;
-
-        Debug.Log(data.name);
-        Debug.Log(data.moves);
-        Debug.Log(data.time);
     }
 }

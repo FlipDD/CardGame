@@ -17,7 +17,24 @@ public class EndScreenController : MonoBehaviour
     private int movesValue;
     private string nameText = "";
 
-    void Start() => inputField.onValueChanged.AddListener(UpdateNameText);
+    void Start()
+    {
+        Debug.Log(scorePanel.childCount);
+        // foreach (Transform child in scorePanel)
+        // {
+        //     Debug.Log("Des");
+        //     Destroy(child);
+        // }
+
+        var cardData = DataSaver.LoadFile();
+        if (cardData != null)
+        {
+            foreach (var card in cardData)
+                AddScoreToLeaderboard(card);
+        }
+
+        inputField.onValueChanged.AddListener(UpdateNameText);
+    } 
 
     void Update() 
     {
@@ -37,16 +54,23 @@ public class EndScreenController : MonoBehaviour
         movesValue = moves;
     }
 
-    public void AddScore(Button button)
+    public void AddEntry(Button button)
     {
         if (nameText.Length > 0)
         {
-            GameObject scoreObj = Instantiate(score, scorePanel);
-            scoreObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText(nameText);
-            scoreObj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().SetText("{0}", movesValue);
-            scoreObj.transform.GetChild(2).GetComponent<TextMeshProUGUI>().SetText("{0:2}", timeValue);
+            var cardData = new CardData(nameText, movesValue, timeValue);
+            DataSaver.SaveFile(cardData);
+            AddScoreToLeaderboard(cardData);
             button.interactable = false;
             inputField.interactable = false;
         }
+    }
+
+    public void AddScoreToLeaderboard(CardData cardData)
+    {
+        GameObject scoreObj = Instantiate(score, scorePanel);
+        scoreObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText(cardData.name);
+        scoreObj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().SetText("{0}", cardData.moves);
+        scoreObj.transform.GetChild(2).GetComponent<TextMeshProUGUI>().SetText("{0:2}", cardData.time);
     }
 }
