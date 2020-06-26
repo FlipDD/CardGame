@@ -37,7 +37,9 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Card.cs" />
+     <Compile Include="Assets\Scripts\CardData.cs" />
      <Compile Include="Assets\Scripts\CardGameController.cs" />
+     <Compile Include="Assets\Scripts\DataSaver.cs" />
      <Compile Include="Assets\Scripts\EndScreenController.cs" />
      <Compile Include="Assets\Scripts\MenuController.cs" />
      <Compile Include="Assets\Scripts\PauseMenuController.cs" />

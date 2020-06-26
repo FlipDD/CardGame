@@ -12,14 +12,22 @@ public class EndScreenController : MonoBehaviour
     public TMP_InputField inputField;
     public Transform scorePanel;
     public GameObject score;
+    
     private float timeValue;
     private int movesValue;
     private string nameText = "";
 
-    void Start()
+    void Start() => inputField.onValueChanged.AddListener(UpdateNameText);
+
+    void Update() 
     {
-        inputField.onValueChanged.AddListener(UpdateNameText);
+        if (Input.GetKeyDown(KeyCode.Space))
+            SceneManager.LoadScene(1);
+        else if (Input.GetKeyUp(KeyCode.Escape))
+            SceneManager.LoadScene(0);    
     }
+
+    public void UpdateNameText(string text) => nameText = text;
 
     public void SetScore(float time, int moves)
     {
@@ -27,12 +35,6 @@ public class EndScreenController : MonoBehaviour
         movesText.SetText("{0} moves", moves);
         timeValue = time;
         movesValue = moves;
-    }
-
-    public void UpdateNameText(string text)
-    {
-        Debug.Log(text);
-        nameText = text;
     }
 
     public void AddScore(Button button)
@@ -46,13 +48,5 @@ public class EndScreenController : MonoBehaviour
             button.interactable = false;
             inputField.interactable = false;
         }
-    }
-
-    void Update() 
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            SceneManager.LoadScene(1);
-        else if (Input.GetKeyUp(KeyCode.Escape))
-            SceneManager.LoadScene(0);    
     }
 }
