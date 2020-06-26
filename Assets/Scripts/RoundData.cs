@@ -1,11 +1,11 @@
 ﻿[System.Serializable]
-public class CardData
+public class RoundData
 {
     public float time;
     public int moves;
     public string name = "";
     
-    public CardData(string nameText, int movesValue, float timeValue)
+    public RoundData(string nameText, int movesValue, float timeValue)
     {
         name = nameText;
         moves = movesValue; 

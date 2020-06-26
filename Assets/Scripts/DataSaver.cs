@@ -6,10 +6,12 @@ using System.Linq;
 
 public static class DataSaver
 {
-    static List<CardData> cardsData = new List<CardData>();
+    static List<RoundData> roundsData = new List<RoundData>();
 
-    public static void SaveFile(CardData data)
+    public static void SaveFile(RoundData data)
     {
+        Debug.Log("Saved file");
+
         string destination = Application.persistentDataPath + "/save.dat";
         FileStream file;
 
@@ -19,13 +21,15 @@ public static class DataSaver
             file = File.Create(destination);
 
         var bf = new BinaryFormatter();
-        cardsData.Add(data);
-        bf.Serialize(file, cardsData);
+        roundsData.Add(data);
+        bf.Serialize(file, roundsData);
         file.Close();
     }
 
-    public static List<CardData> LoadFile()
+    public static List<RoundData> LoadFile()
     {
+        Debug.Log("Loaded file");
+
         string destination = Application.persistentDataPath + "/save.dat";
 
         if(File.Exists(destination))
@@ -33,14 +37,15 @@ public static class DataSaver
             var bf = new BinaryFormatter();
             var stream = new FileStream(destination, FileMode.Open);
 
-            var data = bf.Deserialize(stream) as List<CardData>;
-            foreach (var d in data)
-                cardsData.Add(d);
-            
+            var data = bf.Deserialize(stream) as List<RoundData>;
 
+            roundsData = data;
+            // foreach (var d in data)
+            //     roundsData.Add(d);
+            
             stream.Close();
 
-            return cardsData.OrderBy(t=>t.time).ToList();
+            return roundsData.OrderBy(t=>t.time).ToList();
         }
         else
         {

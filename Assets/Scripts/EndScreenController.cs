@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,17 +18,17 @@ public class EndScreenController : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(scorePanel.childCount);
         // foreach (Transform child in scorePanel)
         // {
         //     Debug.Log("Des");
         //     Destroy(child);
         // }
 
-        var cardData = DataSaver.LoadFile();
-        if (cardData != null)
+        var roundData = DataSaver.LoadFile();
+        if (roundData != null)
         {
-            foreach (var card in cardData)
+            Debug.Log("Load files " + roundData.Count + " and add listener");
+            foreach (var card in roundData)
                 AddScoreToLeaderboard(card);
         }
 
@@ -58,19 +57,19 @@ public class EndScreenController : MonoBehaviour
     {
         if (nameText.Length > 0)
         {
-            var cardData = new CardData(nameText, movesValue, timeValue);
-            DataSaver.SaveFile(cardData);
-            AddScoreToLeaderboard(cardData);
+            var roundData = new RoundData(nameText, movesValue, timeValue);
+            DataSaver.SaveFile(roundData);
+            AddScoreToLeaderboard(roundData);
             button.interactable = false;
             inputField.interactable = false;
         }
     }
 
-    public void AddScoreToLeaderboard(CardData cardData)
+    public void AddScoreToLeaderboard(RoundData roundData)
     {
         GameObject scoreObj = Instantiate(score, scorePanel);
-        scoreObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText(cardData.name);
-        scoreObj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().SetText("{0}", cardData.moves);
-        scoreObj.transform.GetChild(2).GetComponent<TextMeshProUGUI>().SetText("{0:2}", cardData.time);
+        scoreObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText(roundData.name);
+        scoreObj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().SetText("{0}", roundData.moves);
+        scoreObj.transform.GetChild(2).GetComponent<TextMeshProUGUI>().SetText("{0:2}", roundData.time);
     }
 }

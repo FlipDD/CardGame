@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Card : MonoBehaviour
 {
@@ -8,15 +6,4 @@ public class Card : MonoBehaviour
     public string id;
     public bool foundPair;
     public bool flipped;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
